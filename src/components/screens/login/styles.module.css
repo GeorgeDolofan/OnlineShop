@@ -6,6 +6,10 @@
   background-color:#FAF7F0;
 }
 
+.snackbar{
+  color:red;
+}
+
 
 
 button{
@@ -58,6 +62,10 @@ button:active {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
+}
+.button_container>span{
+  margin-top: 50px;;
 }
 
 .card{
