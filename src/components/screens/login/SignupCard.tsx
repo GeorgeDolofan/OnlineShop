@@ -1,15 +1,7 @@
 import * as React from 'react';
 import classes from "./styles.module.css";
-import Snackbar from '@mui/material/Snackbar';
-import MuiAlert, { AlertProps } from '@mui/material/Alert';
-import { useState, useEffect } from 'react';
+import axios from 'axios';
 
-const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
-    props,
-    ref,
-  ) {
-    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-  });
 
 
 
@@ -24,7 +16,7 @@ const SignupCard = (props:any) => {
     
 
     const emailCheck = (email:string) =>{
-        let mailformat =  /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        let mailformat = new RegExp("^[^\s@]+@[^\s@]+\.[^\s@]+$");
         if(mailformat.test(email)){
             return true;
         }
@@ -32,8 +24,8 @@ const SignupCard = (props:any) => {
 
     }
 
-    const strongPass = (pass:string) => {
-        var mediumRegex = new RegExp("^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})");
+    const mediumPass = (pass:string) => {
+        var mediumRegex = new RegExp("^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{8,})");
         if(mediumRegex.test(pass)){
             return true;
         }
@@ -44,19 +36,32 @@ const SignupCard = (props:any) => {
 
     
     
-    const clickHandler = (e:any) => {
+    const clickHandler = async (e:any) => {
         e.preventDefault();
-        
-        console.log(usernameValue,emailValue,passwordValue,retypepasswordValue);
+     
         if(usernameValue===undefined||usernameValue===null||usernameValue.length<=2)props.setOpen1(true);//username
             else if(emailCheck(emailValue)!=true){
                 props.setOpen2(true);
-            }else if(strongPass(passwordValue)!=true){
+            }else if(mediumPass(passwordValue)!=true){
                 props.setOpen3(true);
             }else if(passwordValue!=retypepasswordValue){
                 props.setOpen4(true);
             }else{
-                //request to API
+                try {
+                    let data = JSON.stringify({username:usernameValue, emailAddress:emailValue, password:passwordValue});
+                    let response = await axios.post("http://localhost:8080/register", data , {headers:{'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json',}});
+                    console.log(response);
+                    if(response.data==="register_success"){
+                        props.setSuccess(true);
+
+                    }
+                    
+                    
+                } catch(error:any){
+                    console.log(error.response);
+                    if(error.response.data.message==="Email already used")props.setOpenError1(true);
+                    else if(error.response.data.message==="Username already used")props.setOpenError2(true);
+                }
             }
             
         
@@ -80,7 +85,7 @@ const SignupCard = (props:any) => {
                     
                 </div>
                 <div className={classes.button_container}>
-                    <button onClick={clickHandler}>Sign Up</button>
+                    <button className={classes.button} onClick={clickHandler}>Sign Up</button>
                     
                 </div>
             </form>

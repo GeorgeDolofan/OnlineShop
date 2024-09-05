@@ -1,0 +1,50 @@
+.navbar {
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+    background-color: #EEEEEE;
+    display: flex;
+    align-items: center;
+    gap:30px;
+    padding-left: 10px;
+    position: fixed;
+    width: 100%;
+    height: 60px;
+}
+.bg{
+    background-color: #FAF7F0;
+    width: 100%; 
+    height: 100%;
+    position: absolute;
+
+  }
+.searchbar{
+  background-color: #EEEEEE;
+  font-size:16px;
+  border:none;
+  outline: none;
+  height: 2rem;
+  width: 15rem;
+  margin-bottom: 10px;
+  border-bottom: 2px solid black;
+  transition: all 0.3s ease-in;
+  margin-left: 100px;
+}
+.searchbar:focus{
+    border-bottom: 2px solid #98A8F8;
+    
+}
+.navbutton{
+    border:none;
+    height: 2rem;
+    width: 6rem;
+    border-bottom: 0px solid black;
+    font-size: 20px;
+    margin-bottom: 6px;
+    transition: all 0.3s ease-in;
+    
+}
+.navbutton:hover{
+    border-bottom: 2px solid #98A8F8;
+    color: #98A8F8;
+   
+
+}

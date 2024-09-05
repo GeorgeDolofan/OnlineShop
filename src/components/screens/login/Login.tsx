@@ -1,8 +1,15 @@
 import classes from "./styles.module.css";
 import Wave from "react-wavify";
 import Card from "./Card";
+import { useEffect } from "react";
 
 const Login = () => {
+
+    useEffect(() => {
+        window.localStorage.setItem("jwt","");
+        window.localStorage.setItem("userRole","");
+    })
+
     return(
     
     <div>
